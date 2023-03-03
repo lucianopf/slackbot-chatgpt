@@ -4,10 +4,9 @@ const SmartSlack = require('smartslack')
 const { makeQuestion } = require('./lib/chatgpt')
 const { sendMessage } = require('./lib/slack')
 
-const SLACKBOT_USER_ID = 'UMAKC8KTR'
-
 const {
   SLACKBOT_TOKEN,
+  SLACKBOT_USER_ID,
 } = process.env  
 
 const smartSlackClient = new SmartSlack({ token: SLACKBOT_TOKEN })
