@@ -21,13 +21,25 @@ smartSlackClient.on('message', async (message) => {
     message.text &&
     message.text.includes(`<@${SLACKBOT_USER_ID}>`) &&
     message.subtype !== 'channel_join') {
-    console.log(message);
+    console.log(message)
 
-    const response = await makeQuestion(message.text.replace(`<@${SLACKBOT_USER_ID}>`, ''))
+    let user = message.ts
 
-    const { text } = response.choices.pop()  
+    if (message.thread_ts) {
+      user = message.thread_tsx
+    }
 
-    const slackresponse = await sendMessage(text, message.channel, message.ts)
+    const response = await makeQuestion(
+      message.text.replace(`<@${SLACKBOT_USER_ID}>`, ''),
+      user
+    )
+
+    console.log(JSON.stringify(response))
+
+    const { message: responseMessage } = response.choices.pop()  
+    const { content } = responseMessage
+
+    const slackresponse = await sendMessage(content, message.channel, message.ts)
 
     console.log(slackresponse)
   }
